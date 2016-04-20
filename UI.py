@@ -22,7 +22,7 @@ class ElliesButton:
         Lframe_1 = LabelFrame(main_frame, text = 'Frame 1', relief=SUNKEN, borderwidth=3, padx=5, pady=5)
         Lframe_1.grid(row=0,column=0, sticky=S+E+N+W)
         Lframe_1.columnconfigure(0, weight=1)
-        Lframe_1.rowconfigure(0,weight=1)
+        Lframe_1.rowconfigure(1,weight=1) #edit, take a look at later 4/20
 
         Lframe_2 = LabelFrame(main_frame, text = 'Frame 2', relief=SUNKEN, borderwidth= 3, padx=5, pady=5)
         Lframe_2.grid(row=1, column=0, sticky=S+E+N+W)
@@ -38,14 +38,14 @@ class ElliesButton:
 #======= Second Sub-Frames ============================================================================================#
 
         LF1_Frame1 = Frame(Lframe_1, padx=5, pady=5)
-        LF1_Frame1.grid(row=0, column=0, sticky=S+E+N+W)
+        LF1_Frame1.grid(row=0, column=0, sticky=N+W+E)
 
         LF2_Frame1 = Frame(Lframe_2, padx=5, pady=5)
         LF2_Frame1.grid(row=0, column=0, sticky=S+E+N+W)
 
 
         LF1_Frame2 = Frame(Lframe_1)
-        LF1_Frame2.grid(row=1,column=0, sticky=W+E)
+        LF1_Frame2.grid(row=1,column=0, sticky=N+S+E+W)
 
         LF2_Frame2 = Frame(Lframe_2)
         LF2_Frame2.grid(row=1,column=0, sticky=W+E)
@@ -53,14 +53,20 @@ class ElliesButton:
 
 # ======= Adding Widgets=========#
 
-        LF1_Label1 = Label(LF1_Frame1, text='Spell:')
-        LF1_Label1.grid(row=0,column=0, sticky=N+W)
+        LF1_Label1 = Label(LF1_Frame1, text='Class:')
+        LF1_Label1.grid(row=0,column=0, sticky=W)
 
         LF1_OM1var = StringVar(master)
         LF1_OM1var.set('one') # default value
         LF1_OM1 = OptionMenu(LF1_Frame1, LF1_OM1var, 'one','two','three')
-        LF1_OM1.grid(row=0, column=1, sticky=N+W)
+        LF1_OM1.grid(row=0, column=1, sticky=W)
         LF1_OM1.config(width=15)
+
+        LF1_Label2 = Label(LF1_Frame2, text='Str: ')
+        LF1_Label2.grid(row=0, column=0, sticky=N+W)
+        LF1_Entry1 = Entry(LF1_Frame2)
+        LF1_Entry1.config(width=10)
+        LF1_Entry1.grid(row=0, column=1)
 
         LF2_Label1 = Label(LF2_Frame1, text='Spell:')
         LF2_Label1.grid(row=0,column=0, sticky=N+W)
@@ -70,9 +76,6 @@ class ElliesButton:
         LF2_OM1 = OptionMenu(LF2_Frame1, LF2_OM1var, 'one','two','three')
         LF2_OM1.grid(row=0, column=1, sticky=N+W)
         LF2_OM1.config(width=15)
-
-        LF1F2_AddSpell = Button(LF1_Frame2, text='Add Spell')
-        LF1F2_AddSpell.pack(side=RIGHT)
 
         LF2F2_AddSpell = Button(LF2_Frame2, text='Add Spell')
         LF2F2_AddSpell.pack(side=RIGHT)
