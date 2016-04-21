@@ -53,7 +53,7 @@ class ElliesButton:
 
 # ===== Adding Widgets ================================================================================================== #
 
-    # ===== Class OptionMenu ============================================================================================ #
+    # ===== Class OptionMenu / LF1_Frame1 stuff ========================================================================= #
     
         LF1_Label1 = Label(LF1_Frame1, text='Class:')
         LF1_Label1.grid(row=0,column=0, sticky=W)
@@ -63,6 +63,12 @@ class ElliesButton:
         LF1_OM1 = OptionMenu(LF1_Frame1, LF1_OM1var, 'one','two','three')
         LF1_OM1.grid(row=0, column=1, sticky=W)
         LF1_OM1.config(width=15)
+        
+        LF1_RandomStats = Button(LF1_Frame1, text='Randomize Stats')
+        LF1_RandomStats.grid(row=0, column=2, sticky=E)
+        
+        LF1_DefaultStats = Button(LF1_Frame1, text='Default Stats')
+        LF1_DefaultStats.grid(row=0, column=3, sticky=E)
     
     # ===== Stats Frame 1 =============================================================================================== #
     
@@ -101,6 +107,7 @@ class ElliesButton:
         LF1_Entry_Cha = Entry(LF1_Frame2)
         LF1_Entry_Cha.config(width=5)
         LF1_Entry_Cha.grid(row=5, column=1)
+        
     # ===== Spell OptionMenu (Frame2) ================================================================================== #
         
         LF2_Label_Spell = Label(LF2_Frame1, text='Spell:')
@@ -115,6 +122,9 @@ class ElliesButton:
         LF2F2_AddSpell = Button(LF2_Frame2, text='Add Spell')
         LF2F2_AddSpell.pack(side=RIGHT)
 
+    # ===== Third LabelFrame Options =================================================================================== #
+        # This will most likely become a Frame for Physical attacks.
+        
         LF3_C1var = IntVar()
         LF3_C1button = Checkbutton(Lframe_3, text='Option 1', variable=LF3_C1var)
         LF3_C1button.grid(row=0,column=0)
