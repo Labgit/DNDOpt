@@ -35,7 +35,7 @@ class ElliesButton:
         Lframe_4 = LabelFrame(main_frame, text = 'Frame 4', width=800, height=400, relief=SUNKEN, borderwidth= 3, padx=5, pady=5)
         Lframe_4.grid(row=0, column=1, columnspan=4, rowspan=3, sticky=S+E+N+W)
 
-#======= Second Sub-Frames ============================================================================================#
+# ===== Second Sub-Frames ============================================================================================#
 
         LF1_Frame1 = Frame(Lframe_1, padx=5, pady=5)
         LF1_Frame1.grid(row=0, column=0, sticky=N+W+E)
@@ -51,8 +51,10 @@ class ElliesButton:
         LF2_Frame2.grid(row=1,column=0, sticky=W+E)
 
 
-# ======= Adding Widgets=========#
+# ===== Adding Widgets ================================================================================================== #
 
+    # ===== Class OptionMenu ============================================================================================ #
+    
         LF1_Label1 = Label(LF1_Frame1, text='Class:')
         LF1_Label1.grid(row=0,column=0, sticky=W)
 
@@ -61,21 +63,54 @@ class ElliesButton:
         LF1_OM1 = OptionMenu(LF1_Frame1, LF1_OM1var, 'one','two','three')
         LF1_OM1.grid(row=0, column=1, sticky=W)
         LF1_OM1.config(width=15)
+    
+    # ===== Stats Frame 1 =============================================================================================== #
+    
+        LF1_Label_Str = Label(LF1_Frame2, text='Str: ')
+        LF1_Label_Str.grid(row=0, column=0, sticky=N+W)
+        LF1_Entry_Str = Entry(LF1_Frame2)
+        LF1_Entry_Str.config(width=5)
+        LF1_Entry_Str.grid(row=0, column=1)
 
-        LF1_Label2 = Label(LF1_Frame2, text='Str: ')
-        LF1_Label2.grid(row=0, column=0, sticky=N+W)
-        LF1_Entry1 = Entry(LF1_Frame2)
-        LF1_Entry1.config(width=10)
-        LF1_Entry1.grid(row=0, column=1)
+        LF1_Label_Dex = Label(LF1_Frame2, text='Dex: ')
+        LF1_Label_Dex.grid(row=1, column=0, sticky=N+W)
+        LF1_Entry_Dex = Entry(LF1_Frame2)
+        LF1_Entry_Dex.config(width=5)
+        LF1_Entry_Dex.grid(row=1, column=1)
 
-        LF2_Label1 = Label(LF2_Frame1, text='Spell:')
-        LF2_Label1.grid(row=0,column=0, sticky=N+W)
+        LF1_Label_Con = Label(LF1_Frame2, text='Con: ')
+        LF1_Label_Con.grid(row=2, column=0, sticky=N+W)
+        LF1_Entry_Con = Entry(LF1_Frame2)
+        LF1_Entry_Con.config(width=5)
+        LF1_Entry_Con.grid(row=2, column=1)
+        
+        LF1_Label_Int = Label(LF1_Frame2, text='Int: ')
+        LF1_Label_Int.grid(row=3, column=0, sticky=N+W)
+        LF1_Entry_Int = Entry(LF1_Frame2)
+        LF1_Entry_Int.config(width=5)
+        LF1_Entry_Int.grid(row=3, column=1)
 
-        LF2_OM1var = StringVar(master)
-        LF2_OM1var.set('one') # default value
-        LF2_OM1 = OptionMenu(LF2_Frame1, LF2_OM1var, 'one','two','three')
-        LF2_OM1.grid(row=0, column=1, sticky=N+W)
-        LF2_OM1.config(width=15)
+        LF1_Label_Wis = Label(LF1_Frame2, text='Wis: ')
+        LF1_Label_Wis.grid(row=4, column=0, sticky=N+W)
+        LF1_Entry_Wis = Entry(LF1_Frame2)
+        LF1_Entry_Wis.config(width=5)
+        LF1_Entry_Wis.grid(row=4, column=1)
+
+        LF1_Label_Cha = Label(LF1_Frame2, text='Cha: ')
+        LF1_Label_Cha.grid(row=5, column=0, sticky=N+W)
+        LF1_Entry_Cha = Entry(LF1_Frame2)
+        LF1_Entry_Cha.config(width=5)
+        LF1_Entry_Cha.grid(row=5, column=1)
+    # ===== Spell OptionMenu (Frame2) ================================================================================== #
+        
+        LF2_Label_Spell = Label(LF2_Frame1, text='Spell:')
+        LF2_Label_Spell.grid(row=0,column=0, sticky=N+W)
+    
+        LF2_OM_Spellvar = StringVar(master)
+        LF2_OM_Spellvar.set('one') # default value
+        LF2_OMSpell = OptionMenu(LF2_Frame1, LF2_OMSpellvar, 'one','two','three')
+        LF2_OMSpell.grid(row=0, column=1, sticky=N+W)
+        LF2_OMSpell.config(width=15)
 
         LF2F2_AddSpell = Button(LF2_Frame2, text='Add Spell')
         LF2F2_AddSpell.pack(side=RIGHT)
