@@ -1,4 +1,5 @@
-from Tkinter import *
+from tkinter import *
+from tkinter.ttk import *
 
 
 class ElliesButton:
@@ -6,10 +7,6 @@ class ElliesButton:
     def __init__(self, master):
         main_frame = Frame(master)
         main_frame.pack()
-        main_frame.columnconfigure(0, minsize=400)
-        main_frame.rowconfigure(0, minsize=200)
-        main_frame.rowconfigure(1, minsize=200)
-
 
         top_menu = Menu(master) # this can't be a frame, it has to be master window
         master.config(menu=top_menu)
@@ -17,8 +14,17 @@ class ElliesButton:
         top_menu.add_cascade(label='File')
         top_menu.add_cascade(label='Edit')
 
-#======= Initial Sub-Frames ===========================================================================================#
+#======= Initial Sub-Frames ========================================================================================== #
 
+    # ===== Notebook Frames ========================================================================================== #
+    
+        NBook = Notebook(main_frame)
+        NBF1_Character = Frame(NBook)
+        NBF2_Enemy = Frame(NBook)
+        
+        NBook.add(NBF1_Character, text='Character', width=400, height=400)
+        NBook.add(NBF1_Enemy, text='Enemy', width=400, height=400)
+    
         Lframe_1 = LabelFrame(main_frame, text = 'Frame 1', relief=SUNKEN, borderwidth=3, padx=5, pady=5)
         Lframe_1.grid(row=0,column=0, sticky=S+E+N+W)
         Lframe_1.columnconfigure(0, weight=1)
