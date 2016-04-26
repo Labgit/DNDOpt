@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 class App:
 
     frame_list = []
+    spell_label_list = []
     spell_omvar_list = []
     spell_om_list = []
 
@@ -26,6 +27,9 @@ class App:
         add_spell_button = Button(self.frame2, text='Add Spell', command=self.add_spell, bg='white')
         add_spell_button.pack(side=RIGHT)
 
+        remove_spell_button = Button(self.frame2, text='Remove Last Spell', command=self.remove_spell, bg='white')
+        remove_spell_button.pack(side=LEFT)
+
         self.next_image_path = os.path.join(os.getcwd(), 'Pictures/right_arrow.jpg')
         next_image = Image.open(self.next_image_path).resize((25,25), Image.ANTIALIAS)
         self.next_image = ImageTk.PhotoImage(next_image)
@@ -37,8 +41,9 @@ class App:
         page_label = Label(self.frame1, text='Page 1', bg='white')
         page_label.grid(row=0, column=1, sticky=N)
 
-        spell_label = Label(self.frame1, text='Spell 1:')
-        spell_label.grid(row=2,column=0, sticky=W)
+        spell_label = Label(self.frame1, text='Spell 1:', bg='white')
+        spell_label.grid(row=2, column=0, sticky=W)
+        App.spell_label_list.append(spell_label)
 
         spell_optionmenu_var = StringVar(self.frame1)
         spell_optionmenu_var.set('one') # default value
@@ -46,7 +51,7 @@ class App:
 
         spell_optionmenu = OptionMenu(self.frame1, spell_optionmenu_var, 'one','two','three')
         spell_optionmenu.grid(row=2, column=1, sticky=W)
-        spell_optionmenu.config(width=15)
+        spell_optionmenu.config(width=25)
         App.spell_om_list.append(spell_optionmenu)
 
     def add_spell(self):
@@ -72,8 +77,9 @@ class App:
 
         top_frame = App.frame_list[(len(App.frame_list) - 1)]
 
-        spell_label = Label(top_frame, text='Spell %r:' % (len(App.spell_omvar_list) + 1))
-        spell_label.grid(row=(spell_number+1),column=0, sticky=W)
+        spell_label = Label(top_frame, text='Spell %r:' % (len(App.spell_omvar_list) + 1), bg='white')
+        spell_label.grid(row=(spell_number+1), column=0, sticky=W)
+        App.spell_label_list.append(spell_label)
 
         spell_optionmenu_var = StringVar(top_frame)
         spell_optionmenu_var.set('one') # default value
@@ -81,7 +87,7 @@ class App:
 
         spell_optionmenu = OptionMenu(top_frame, spell_optionmenu_var, 'one','two','three')
         spell_optionmenu.grid(row=(spell_number+1), column=1, sticky=W)
-        spell_optionmenu.config(width=15)
+        spell_optionmenu.config(width=25)
         App.spell_om_list.append(spell_optionmenu)
 
     def previous_frame(self, current_frame):
@@ -93,6 +99,25 @@ class App:
         frame = App.frame_list.index(current_frame)
         next_frame = frame + 1
         App.frame_list[next_frame].lift()
+
+    def remove_spell(self):
+        frame = App.frame_list[-1]
+        spell_label = App.spell_label_list[-1]
+        spell_om = App.spell_om_list[-1]
+        spell_omvar = App.spell_omvar_list[-1]
+        spell_number = (len(App.spell_omvar_list) % 4)
+
+        if len(App.spell_omvar_list) > 1:
+            spell_label.destroy()
+            spell_om.destroy()
+
+            if spell_number == 1 and len(App.frame_list) > 1:
+                frame.destroy()
+                App.frame_list.pop()
+
+            App.spell_label_list.pop()
+            App.spell_om_list.pop()
+            App.spell_omvar_list.pop()
 
 root = Tk()
 A = App(root)
