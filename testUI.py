@@ -51,17 +51,12 @@ class App:
 
     def add_spell(self):
 
-        spell_number = 4 - (len(App.spell_omvar_list) % 4)
+        spell_number = (len(App.spell_omvar_list) % 4) + 1
+        current_frame = App.frame_list[(len(App.frame_list) - 1)]
 
-        if spell_number == 4:
-            current_frame = App.frame_list[(len(App.frame_list) - 1)]
+        if spell_number == 1:
             frame = Frame(self.main_frame, bg='white')
-            frame.grid(row=0, column=0, sticky=S+N+E+W)
-            frame.columnconfigure(0, weight=1)
-            frame.columnconfigure(1, weight=1)
-            frame.columnconfigure(2, weight=1)
-            frame.rowconfigure(0, weight=1)
-            frame.rowconfigure(1, weight=1)
+            frame.grid(row=0, column=0, sticky='news')
 
             next_page_button = Button(current_frame, image=self.next_image, command= lambda: self.next_frame(current_frame))
             next_page_button.grid(row=0, column=2, sticky=N+E)
@@ -75,16 +70,16 @@ class App:
             App.frame_list.append(frame)
             frame.lift()
 
-        current_frame = App.frame_list[(len(App.frame_list) - 1)]
+        top_frame = App.frame_list[(len(App.frame_list) - 1)]
 
-        spell_label = Label(current_frame, text='Spell %r:' % (len(App.spell_omvar_list) + 1))
+        spell_label = Label(top_frame, text='Spell %r:' % (len(App.spell_omvar_list) + 1))
         spell_label.grid(row=(spell_number+1),column=0, sticky=W)
 
-        spell_optionmenu_var = StringVar(current_frame)
+        spell_optionmenu_var = StringVar(top_frame)
         spell_optionmenu_var.set('one') # default value
         App.spell_omvar_list.append(spell_optionmenu_var)
 
-        spell_optionmenu = OptionMenu(current_frame, spell_optionmenu_var, 'one','two','three')
+        spell_optionmenu = OptionMenu(top_frame, spell_optionmenu_var, 'one','two','three')
         spell_optionmenu.grid(row=(spell_number+1), column=1, sticky=W)
         spell_optionmenu.config(width=15)
         App.spell_om_list.append(spell_optionmenu)
