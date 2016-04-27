@@ -100,9 +100,12 @@ class App:
 
 
     def next_frame(self, current_frame):
-        frame = App.spell_frame_list.index(current_frame)
-        next_frame = frame + 1
-        App.spell_frame_list[next_frame].lift()
+        try:
+            frame = App.spell_frame_list.index(current_frame)
+            next_frame = frame + 1
+            App.spell_frame_list[next_frame].lift()
+        except IndexError:
+            pass
 
     def remove_spell(self):
         frame = App.spell_frame_list[-1]
