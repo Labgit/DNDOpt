@@ -1,165 +1,248 @@
 from Tkinter import *
-from Tkinter.ttk import *
+import ttk
+import os
+from PIL import Image, ImageTk
 
+class App:
 
-class ElliesButton:
+# = Class Variables ================================================================================================== #
+
+    spell_frame_list = []
+    spell_label_list = []
+    spell_combobox_list = []
+    spell_om_list = []
+
+# = Initial Construction ============================================================================================= #
 
     def __init__(self, master):
-        main_frame = Frame(master)
-        main_frame.pack()
+        self.main_frame = Frame(master)
+        self.main_frame.pack()
 
-        top_menu = Menu(master) # this can't be a frame, it has to be master window
-        master.config(menu=top_menu)
+        self.top_menu = Menu(master) # this can't be a frame, it has to be master window
+        master.config(menu= self.top_menu)
 
-        top_menu.add_cascade(label='File')
-        top_menu.add_cascade(label='Edit')
+        self.top_menu.add_cascade(label='File')
+        self.top_menu.add_cascade(label='Edit')
 
-#======= Initial Sub-Frames ========================================================================================== #
+# = Initial Sub-Frames =============================================================================================== #
 
-    # ===== Notebook Frames ========================================================================================== #
+# ===== Notebook Frames ============================================================================================== #
     
-        NBook = Notebook(main_frame)
-        NBF1_Character = Frame(NBook)
-        NBF2_Enemy = Frame(NBook)
-        
-        NBook.add(NBF1_Character, text='Character', width=400, height=400)
-        NBook.add(NBF1_Enemy, text='Enemy', width=400, height=400)
-    
-        Lframe_1 = LabelFrame(main_frame, text = 'Frame 1', relief=SUNKEN, borderwidth=3, padx=5, pady=5)
-        Lframe_1.grid(row=0,column=0, sticky=S+E+N+W)
-        Lframe_1.columnconfigure(0, weight=1)
-        Lframe_1.rowconfigure(1,weight=1) #edit, take a look at later 4/20
+        self.NBook = ttk.Notebook(self.main_frame)
+        self.NBook.grid(row=0, column=0)
 
-        Lframe_2 = LabelFrame(main_frame, text = 'Frame 2', relief=SUNKEN, borderwidth= 3, padx=5, pady=5)
-        Lframe_2.grid(row=1, column=0, sticky=S+E+N+W)
-        Lframe_2.columnconfigure(0, weight=1)
-        Lframe_2.rowconfigure(0, weight=1)
+        self.Ntab_Character = Frame(self.NBook)
+        self.Ntab_Character.rowconfigure(0, minsize=175)
+        self.Ntab_Character.rowconfigure(1, minsize=175)
+        self.Ntab_Character.rowconfigure(2, minsize=175)
+        self.Ntab_Character.columnconfigure(0, minsize=400)
 
-        Lframe_3 = LabelFrame(main_frame, text = 'Frame 3', relief=SUNKEN, borderwidth= 3, padx=5, pady=5)
-        Lframe_3.grid(row=2, column=0, sticky=S+E+N+W)
+        self.Ntab_Enemy = Frame(self.NBook)
+        self.Ntab_Enemy.rowconfigure(0, minsize=175)
+        self.Ntab_Enemy.rowconfigure(1, minsize=175)
+        self.Ntab_Enemy.rowconfigure(2, minsize=175)
+        self.Ntab_Enemy.columnconfigure(0, minsize=400)
 
-        Lframe_4 = LabelFrame(main_frame, text = 'Frame 4', width=800, height=400, relief=SUNKEN, borderwidth= 3, padx=5, pady=5)
-        Lframe_4.grid(row=0, column=1, columnspan=4, rowspan=3, sticky=S+E+N+W)
+        self.Ntab_Options = Frame(self.NBook)
+        self.Ntab_Options.rowconfigure(0, minsize=175)
+        self.Ntab_Options.rowconfigure(1, minsize=175)
+        self.Ntab_Options.rowconfigure(2, minsize=175)
+        self.Ntab_Options.columnconfigure(0, minsize=400)
 
-# ===== Second Sub-Frames ============================================================================================#
+        self.NBook.add(self.Ntab_Character, text='Character')
+        self.NBook.add(self.Ntab_Enemy, text='Enemy')
+        self.NBook.add(self.Ntab_Options, text='Options')
 
-        LF1_Frame1 = Frame(Lframe_1, padx=5, pady=5)
-        LF1_Frame1.grid(row=0, column=0, sticky=N+W+E)
+# ===== Sub-Tab Frames =============================================================================================== #
 
-        LF2_Frame1 = Frame(Lframe_2, padx=5, pady=5)
-        LF2_Frame1.grid(row=0, column=0, sticky=S+E+N+W)
+# ========= Character Stats Label Frame ============================================================================== #
+
+        self.LF_Character_Stats = LabelFrame(self.Ntab_Character, text='Stats')
+        self.LF_Character_Stats.grid(row=0, column=0, sticky='news')
+
+        self.Class_Label = Label(self.LF_Character_Stats, text='Class: ')
+        self.Class_Label.grid(row=0, column=0, sticky=W)
+
+        self.Class_Combobox_var = StringVar(self.LF_Character_Stats)
+        self.Class_Combobox_var.set(' ')
+
+        self.Class_Combobox = ttk.Combobox(self.LF_Character_Stats)
+        self.Class_Combobox.grid(row=0, column=1, columnspan=4, sticky=W, padx=2, pady=3)
+        self.Class_Combobox.config(width=20)
+
+        self.Str_Stat_Label = Label(self.LF_Character_Stats, text='Str: ')
+        self.Str_Stat_Label.grid(row=1, column=0, padx=2, pady=3)
+
+        self.Dex_Stat_Label = Label(self.LF_Character_Stats, text='Dex: ')
+        self.Dex_Stat_Label.grid(row=2, column=0, padx=2, pady=3)
+
+        self.Con_Stat_Label = Label(self.LF_Character_Stats, text='Con: ')
+        self.Con_Stat_Label.grid(row=3, column=0, padx=2, pady=3)
+
+        self.Int_Stat_Label = Label(self.LF_Character_Stats, text='Int: ')
+        self.Int_Stat_Label.grid(row=1, column=3, padx=2, pady=3)
+
+        self.Wis_Stat_Label = Label(self.LF_Character_Stats, text='Wis: ')
+        self.Wis_Stat_Label.grid(row=2, column=3, padx=2, pady=3)
+
+        self.Cha_Stat_Label = Label(self.LF_Character_Stats, text='Cha: ')
+        self.Cha_Stat_Label.grid(row=3, column=3, padx=2, pady=3)
+
+        self.Str_Stat_Entry = Entry(self.LF_Character_Stats)
+        self.Str_Stat_Entry.grid(row=1, column=1, sticky=W, padx=2, pady=3)
+        self.Str_Stat_Entry.configure(width=5)
+
+        self.Dex_Stat_Entry = Entry(self.LF_Character_Stats)
+        self.Dex_Stat_Entry.grid(row=2, column=1, sticky=W, padx=2, pady=3)
+        self.Dex_Stat_Entry.configure(width=5)
+
+        self.Con_Stat_Entry = Entry(self.LF_Character_Stats)
+        self.Con_Stat_Entry.grid(row=3, column=1, sticky=W, padx=2, pady=3)
+        self.Con_Stat_Entry.configure(width=5)
+
+        self.Int_Stat_Entry = Entry(self.LF_Character_Stats)
+        self.Int_Stat_Entry.grid(row=1, column=4, sticky=W, padx=2, pady=3)
+        self.Int_Stat_Entry.configure(width=5)
+
+        self.Wis_Stat_Entry = Entry(self.LF_Character_Stats)
+        self.Wis_Stat_Entry.grid(row=2, column=4, sticky=W, padx=2, pady=3)
+        self.Wis_Stat_Entry.configure(width=5)
+
+        self.Cha_Stat_Entry = Entry(self.LF_Character_Stats)
+        self.Cha_Stat_Entry.grid(row=3, column=4, sticky=W, padx=2, pady=3)
+        self.Cha_Stat_Entry.configure(width=5)
+
+# ========= Spells Label Frame ======================================================================================= #
+
+        self.LF_Spells = LabelFrame(self.Ntab_Character, text='Spells')
+        self.LF_Spells.grid(row=1, column=0, sticky='news')
+        self.LF_Spells.rowconfigure(0, weight=1)
+        self.LF_Spells.columnconfigure(0, weight=1)
+
+        self.Spell_Subframe1 = Frame(self.LF_Spells)
+        self.Spell_Subframe1.grid(row=0, column=0, sticky='news')
+        self.Spell_Subframe1.columnconfigure(1, weight=1)
+
+        self.Spell_Subframe2 = Frame(self.LF_Spells)
+        self.Spell_Subframe2.grid(row=1, column=0, sticky=E + W)
+
+        App.spell_frame_list.append(self.Spell_Subframe1)
+
+        add_spell_button = Button(self.Spell_Subframe2, text='Add Spell', command=self.add_spell)
+        add_spell_button.pack(side=RIGHT)
+
+        remove_spell_button = Button(self.Spell_Subframe2, text='Remove Last Spell', command=self.remove_spell)
+        remove_spell_button.pack(side=LEFT)
+
+        self.next_image_path = os.path.join(os.getcwd(), 'Pictures/right_arrow.jpg')
+        next_image = Image.open(self.next_image_path).resize((25, 25), Image.ANTIALIAS)
+        self.next_image = ImageTk.PhotoImage(next_image)
+
+        self.previous_image_path = os.path.join(os.getcwd(), 'Pictures/left_arrow.jpg')
+        previous_image = Image.open(self.previous_image_path).resize((25, 25), Image.ANTIALIAS)
+        self.previous_image = ImageTk.PhotoImage(previous_image)
+
+        page_label = Label(self.Spell_Subframe1, text='Page 1')
+        page_label.grid(row=0, column=1, sticky=N)
+
+        spell_label = Label(self.Spell_Subframe1, text='Spell 1:')
+        spell_label.grid(row=2, column=0, sticky=W)
+        App.spell_label_list.append(spell_label)
+
+        spell_combobox_var = StringVar(self.Spell_Subframe1)
+        spell_combobox_var.set(' ')  # default value
+        App.spell_combobox_list.append(spell_combobox_var)
+
+        spell_combobox = ttk.Combobox(self.Spell_Subframe1, textvariable=spell_combobox_var)
+        spell_combobox.grid(row=2, column=1, sticky=E + W)
+        App.spell_om_list.append(spell_combobox)
+
+        print_var = Button(self.Spell_Subframe2, text='print variables', command=self.print_var)
+        print_var.pack()
+
+# = User Interface Functions ========================================================================================= #
+
+# ===== Spell Frame Functions ======================================================================================== #
+
+    def add_spell(self):
+
+        spell_number = (len(App.spell_combobox_list) % 4) + 1
+        current_frame = App.spell_frame_list[(len(App.spell_frame_list) - 1)]
+
+        if spell_number == 1:
+            frame = Frame(self.LF_Spells)
+            frame.grid(row=0, column=0, sticky='news')
+            frame.columnconfigure(1, weight=1)
+
+            next_page_button = Button(current_frame, image=self.next_image,
+                                      command=lambda: self.next_frame(current_frame))
+            next_page_button.grid(row=0, column=2, sticky=N + E)
+
+            page_label = Label(frame, text='Page %r' % (len(App.spell_frame_list) + 1))
+            page_label.grid(row=0, column=1, sticky=N)
+
+            previous_page_button = Button(frame, image=self.previous_image,
+                                          command=lambda: self.previous_frame(current_frame))
+            previous_page_button.grid(row=0, column=0, sticky=N + W)
+
+            App.spell_frame_list.append(frame)
+            frame.lift()
+
+        top_frame = App.spell_frame_list[(len(App.spell_frame_list) - 1)]
+
+        spell_label = Label(top_frame, text='Spell %r:' % (len(App.spell_combobox_list) + 1))
+        spell_label.grid(row=(spell_number + 1), column=0, sticky=W)
+        App.spell_label_list.append(spell_label)
+
+        spell_combobox_var = StringVar(top_frame)
+        spell_combobox_var.set(' ')  # default value
+        App.spell_combobox_list.append(spell_combobox_var)
+
+        spell_combobox = ttk.Combobox(top_frame, textvariable=spell_combobox_var)
+        spell_combobox.grid(row=(spell_number + 1), column=1, sticky=E + W)
+        App.spell_om_list.append(spell_combobox)
+
+    def previous_frame(self, current_frame):
+        frame = App.spell_frame_list.index(current_frame)
+        App.spell_frame_list[frame].lift()
+
+    def next_frame(self, current_frame):
+        try:
+            frame = App.spell_frame_list.index(current_frame)
+            next_frame = frame + 1
+            App.spell_frame_list[next_frame].lift()
+        except IndexError:
+            pass
+
+    def remove_spell(self):
+        frame = App.spell_frame_list[-1]
+        spell_label = App.spell_label_list[-1]
+        spell_om = App.spell_om_list[-1]
+        spell_omvar = App.spell_combobox_list[-1]
+        spell_number = (len(App.spell_combobox_list) % 4)
+
+        if len(App.spell_combobox_list) > 1:
+            spell_label.destroy()
+            spell_om.destroy()
+
+            if spell_number == 1 and len(App.spell_frame_list) > 1:
+                frame.destroy()
+                App.spell_frame_list.pop()
+
+            App.spell_label_list.pop()
+            App.spell_om_list.pop()
+            App.spell_combobox_list.pop()
+
+        topframe = App.spell_frame_list[-1]
+        topframe.lift()
+
+    def print_var(self):
+        for var in App.spell_combobox_list:
+            print var.get()
 
 
-        LF1_Frame2 = Frame(Lframe_1)
-        LF1_Frame2.grid(row=1,column=0, sticky=N+S+E+W)
-
-        LF2_Frame2 = Frame(Lframe_2)
-        LF2_Frame2.grid(row=1,column=0, sticky=W+E)
-
-
-# ===== Adding Widgets ================================================================================================== #
-
-    # ===== Class OptionMenu / LF1_Frame1 stuff ========================================================================= #
-    
-        LF1_Label1 = Label(LF1_Frame1, text='Class:')
-        LF1_Label1.grid(row=0,column=0, sticky=W)
-
-        LF1_OM1var = StringVar(master)
-        LF1_OM1var.set('one') # default value
-        LF1_OM1 = OptionMenu(LF1_Frame1, LF1_OM1var, 'one','two','three')
-        LF1_OM1.grid(row=0, column=1, sticky=W)
-        LF1_OM1.config(width=15)
-        
-        LF1_RandomStats = Button(LF1_Frame1, text='Randomize Stats')
-        LF1_RandomStats.grid(row=0, column=2, sticky=E)
-        
-        LF1_DefaultStats = Button(LF1_Frame1, text='Default Stats')
-        LF1_DefaultStats.grid(row=0, column=3, sticky=E)
-    
-    # ===== Stats Frame 1 =============================================================================================== #
-    
-        LF1_Label_Str = Label(LF1_Frame2, text='Str: ')
-        LF1_Label_Str.grid(row=0, column=0, sticky=N+W)
-        LF1_Entry_Str = Entry(LF1_Frame2)
-        LF1_Entry_Str.config(width=5)
-        LF1_Entry_Str.grid(row=0, column=1)
-
-        LF1_Label_Dex = Label(LF1_Frame2, text='Dex: ')
-        LF1_Label_Dex.grid(row=1, column=0, sticky=N+W)
-        LF1_Entry_Dex = Entry(LF1_Frame2)
-        LF1_Entry_Dex.config(width=5)
-        LF1_Entry_Dex.grid(row=1, column=1)
-
-        LF1_Label_Con = Label(LF1_Frame2, text='Con: ')
-        LF1_Label_Con.grid(row=2, column=0, sticky=N+W)
-        LF1_Entry_Con = Entry(LF1_Frame2)
-        LF1_Entry_Con.config(width=5)
-        LF1_Entry_Con.grid(row=2, column=1)
-        
-        LF1_Label_Int = Label(LF1_Frame2, text='Int: ')
-        LF1_Label_Int.grid(row=3, column=0, sticky=N+W)
-        LF1_Entry_Int = Entry(LF1_Frame2)
-        LF1_Entry_Int.config(width=5)
-        LF1_Entry_Int.grid(row=3, column=1)
-
-        LF1_Label_Wis = Label(LF1_Frame2, text='Wis: ')
-        LF1_Label_Wis.grid(row=4, column=0, sticky=N+W)
-        LF1_Entry_Wis = Entry(LF1_Frame2)
-        LF1_Entry_Wis.config(width=5)
-        LF1_Entry_Wis.grid(row=4, column=1)
-
-        LF1_Label_Cha = Label(LF1_Frame2, text='Cha: ')
-        LF1_Label_Cha.grid(row=5, column=0, sticky=N+W)
-        LF1_Entry_Cha = Entry(LF1_Frame2)
-        LF1_Entry_Cha.config(width=5)
-        LF1_Entry_Cha.grid(row=5, column=1)
-        
-    # ===== Spell OptionMenu (Frame2) ================================================================================== #
-        
-        LF2_Label_Spell = Label(LF2_Frame1, text='Spell:')
-        LF2_Label_Spell.grid(row=0,column=0, sticky=N+W)
-    
-        LF2_OM_Spellvar = StringVar(master)
-        LF2_OM_Spellvar.set('one') # default value
-        LF2_OMSpell = OptionMenu(LF2_Frame1, LF2_OMSpellvar, 'one','two','three')
-        LF2_OMSpell.grid(row=0, column=1, sticky=N+W)
-        LF2_OMSpell.config(width=15)
-
-        LF2F2_AddSpell = Button(LF2_Frame2, text='Add Spell')
-        LF2F2_AddSpell.pack(side=RIGHT)
-
-    # ===== Third LabelFrame Options =================================================================================== #
-        # This will most likely become a Frame for Physical attacks.
-        
-        LF3_C1var = IntVar()
-        LF3_C1button = Checkbutton(Lframe_3, text='Option 1', variable=LF3_C1var)
-        LF3_C1button.grid(row=0,column=0)
-
-        LF3_C2var = IntVar()
-        LF3_C2button = Checkbutton(Lframe_3, text='Option 2', variable=LF3_C2var)
-        LF3_C2button.grid(row=1,column=0)
-
-        LF3_C3var = IntVar()
-        LF3_C3button = Checkbutton(Lframe_3, text='Option 3', variable=LF3_C3var)
-        LF3_C3button.grid(row=2,column=0)
-
-        LF3_C4var = IntVar()
-        LF3_C4button = Checkbutton(Lframe_3, text='Option 4', variable=LF3_C4var)
-        LF3_C4button.grid(row=4,column=0)
-
-        LF3_C5var = IntVar()
-        LF3_C5button = Checkbutton(Lframe_3, text='Option 5', variable=LF3_C5var)
-        LF3_C5button.grid(row=5,column=0)
-
-        LF3_C6var = IntVar()
-        LF3_C6button = Checkbutton(Lframe_3, text='Option 6', variable=LF3_C6var)
-        LF3_C6button.grid(row=0,column=1)
-
-    def printMessage(self):
-        print 'This is a message'
-
+# = Mainloop ========================================================================================================= #
 
 root = Tk()
-E = ElliesButton(root) #root is treated as master, also, anytime we want to use anything
-                       # from a class, we have to create an object for it.
+A = App(root)
 root.mainloop()
