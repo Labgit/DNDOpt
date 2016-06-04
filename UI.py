@@ -37,6 +37,12 @@ class App:
         self.Ntab_Character.rowconfigure(2, minsize=175)
         self.Ntab_Character.columnconfigure(0, minsize=400)
 
+        self.Ntab_Attacks= Frame(self.NBook)
+        self.Ntab_Attacks.rowconfigure(0, minsize=175)
+        self.Ntab_Attacks.rowconfigure(1, minsize=175)
+        self.Ntab_Attacks.rowconfigure(2, minsize=175)
+        self.Ntab_Attacks .columnconfigure(0, minsize=400)
+
         self.Ntab_Enemy = Frame(self.NBook)
         self.Ntab_Enemy.rowconfigure(0, minsize=175)
         self.Ntab_Enemy.rowconfigure(1, minsize=175)
@@ -146,7 +152,7 @@ class App:
         page_label.grid(row=0, column=1, sticky=N)
 
         spell_label = Label(self.Spell_Subframe1, text='Spell 1:')
-        spell_label.grid(row=2, column=0, sticky=W)
+        spell_label.grid(row=2, column=0, sticky=W,  padx=2, pady=2)
         App.spell_label_list.append(spell_label)
 
         spell_combobox_var = StringVar(self.Spell_Subframe1)
@@ -154,11 +160,57 @@ class App:
         App.spell_combobox_list.append(spell_combobox_var)
 
         spell_combobox = ttk.Combobox(self.Spell_Subframe1, textvariable=spell_combobox_var)
-        spell_combobox.grid(row=2, column=1, sticky=E + W)
+        spell_combobox.grid(row=2, column=1, sticky=E + W,  padx=2, pady=2)
         App.spell_om_list.append(spell_combobox)
 
         print_var = Button(self.Spell_Subframe2, text='print variables', command=self.print_var)
         print_var.pack()
+
+
+# ========= Physical Attacks Label Frame ======================================================================================= #
+
+        self.LF_PAttacks = LabelFrame(self.Ntab_Character, text='Physical Attacks')
+        self.LF_PAttacks.grid(row=2, column=0, sticky='news')
+        self.LF_PAttacks.rowconfigure(0, weight=1)
+        self.LF_PAttacks.columnconfigure(0, weight=1)
+
+        self.PAttacks_Subframe1 = Frame(self.LF_PAttacks)
+        self.PAttacks_Subframe1.grid(row=0, column=0, sticky='news')
+        self.PAttacks_Subframe1.columnconfigure(1, weight=1)
+
+        self.PAttacks_Subframe2 = Frame(self.LF_PAttacks)
+        self.PAttacks_Subframe2.grid(row=1, column=0, sticky=E + W)
+
+        App.spell_frame_list.append(self.PAttacks_Subframe1)
+
+        add_spell_button = Button(self.PAttacks_Subframe2, text='Add Spell', command=self.add_spell)
+        add_spell_button.pack(side=RIGHT)
+
+        remove_spell_button = Button(self.PAttacks_Subframe2, text='Remove Last Spell', command=self.remove_spell)
+        remove_spell_button.pack(side=LEFT)
+
+        self.next_image_path = os.path.join(os.getcwd(), 'Pictures/right_arrow.jpg')
+        next_image = Image.open(self.next_image_path).resize((25, 25), Image.ANTIALIAS)
+        self.next_image = ImageTk.PhotoImage(next_image)
+
+        self.previous_image_path = os.path.join(os.getcwd(), 'Pictures/left_arrow.jpg')
+        previous_image = Image.open(self.previous_image_path).resize((25, 25), Image.ANTIALIAS)
+        self.previous_image = ImageTk.PhotoImage(previous_image)
+
+        page_label = Label(self.Spell_Subframe1, text='Page 1')
+        page_label.grid(row=0, column=1, sticky=N)
+
+        spell_label = Label(self.Spell_Subframe1, text='Spell 1:')
+        spell_label.grid(row=2, column=0, sticky=W,  padx=2, pady=2)
+        App.spell_label_list.append(spell_label)
+
+        spell_combobox_var = StringVar(self.Spell_Subframe1)
+        spell_combobox_var.set(' ')  # default value
+        App.spell_combobox_list.append(spell_combobox_var)
+
+        spell_combobox = ttk.Combobox(self.Spell_Subframe1, textvariable=spell_combobox_var)
+        spell_combobox.grid(row=2, column=1, sticky=E + W,  padx=2, pady=2)
+        App.spell_om_list.append(spell_combobox)
 
 # = User Interface Functions ========================================================================================= #
 
@@ -191,7 +243,7 @@ class App:
         top_frame = App.spell_frame_list[(len(App.spell_frame_list) - 1)]
 
         spell_label = Label(top_frame, text='Spell %r:' % (len(App.spell_combobox_list) + 1))
-        spell_label.grid(row=(spell_number + 1), column=0, sticky=W)
+        spell_label.grid(row=(spell_number + 1), column=0, sticky=W,  padx=2, pady=2)
         App.spell_label_list.append(spell_label)
 
         spell_combobox_var = StringVar(top_frame)
@@ -199,7 +251,7 @@ class App:
         App.spell_combobox_list.append(spell_combobox_var)
 
         spell_combobox = ttk.Combobox(top_frame, textvariable=spell_combobox_var)
-        spell_combobox.grid(row=(spell_number + 1), column=1, sticky=E + W)
+        spell_combobox.grid(row=(spell_number + 1), column=1, sticky=E + W,  padx=2, pady=2)
         App.spell_om_list.append(spell_combobox)
 
     def previous_frame(self, current_frame):
