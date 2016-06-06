@@ -35,8 +35,11 @@ class App:
         previous_image = Image.open(self.previous_image_path).resize((25, 25), Image.ANTIALIAS)
         self.previous_image = ImageTk.PhotoImage(previous_image)
 
+        if App.class_level > 2:
+            for key, value in dictionaries.abilities_dict[App.character_class]['Paths'].iteritems():
+                print key
 
-        for key, value in dictionaries.abilities_dict[App.character_class].iteritems():
+        for key, value in dictionaries.abilities_dict[App.character_class]['Standard Abilities'].iteritems():
             if int(key) < App.class_level:
                 for item in value:
                     ability_count = len(App.abilities_checkvar_list) % 10
