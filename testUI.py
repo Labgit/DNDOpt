@@ -33,6 +33,8 @@ class App:
     
         self.NBook = ttk.Notebook(self.main_frame)
         self.NBook.grid(row=0, column=0)
+        self.NBook_graph = ttk.Notebook(self.main_frame)
+        self.NBook_graph.grid(row=0,column=1,sticky='news')
 
         self.Ntab_Character = Frame(self.NBook)
         self.Ntab_Character.rowconfigure(0, minsize=175)
@@ -59,8 +61,19 @@ class App:
         self.Ntab_Options.columnconfigure(0, minsize=400)
 
         self.NBook.add(self.Ntab_Character, text='Character')
+        self.NBook.add(self.Ntab_Attacks,text='Attacks')
         self.NBook.add(self.Ntab_Enemy, text='Enemy')
         self.NBook.add(self.Ntab_Options, text='Options')
+
+        self.NGtab_Graph = Frame(self.NBook_graph,bg='white')
+        self.NGtab_Graph.grid_columnconfigure(0, minsize=800)
+
+        self.NGtab_Desc = Frame(self.NBook_graph,bg='white')
+        self.NGtab_Desc.grid_columnconfigure(0,minsize=800)
+        self.NGtab_Desc.grid_rowconfigure(0,weight=1)
+
+        self.NBook_graph.add(self.NGtab_Graph, text='Graph', sticky='news')
+        self.NBook_graph.add(self.NGtab_Desc, text='Description', sticky='news')
 
 # ===== Sub-Tab Frames =============================================================================================== #
 
@@ -72,6 +85,10 @@ class App:
 
         self.feats_frame = frame_classes.Feats(self.Ntab_Character)
         self.feats_frame.grid(row=2, column=0, sticky='news')
+
+        self.desc_frame = frame_classes.Description(self.NGtab_Desc)
+        self.desc_frame.grid(row=0,column=0,sticky='news')
+
 # = Mainloop ========================================================================================================= #
 
 root = Tk()

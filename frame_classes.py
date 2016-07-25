@@ -5,6 +5,15 @@ from PIL import Image, ImageTk
 import dictionaries
 
 
+class Description(tk.Frame):
+    
+    def __init__(self, master):
+        tk.Frame.__init__(self,master)
+        self.grid_columnconfigure(0,weight=1)
+        self.grid_rowconfigure(0,weight=1)
+        self.desc_can = tk.Canvas(self,bg='white')
+        self.desc_can.grid(sticky='news')
+
 # self.row/column_configure is fucking mindblowing, holyshit!
 # really great way to understand how class inheritance works
 
